@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "target": "ES3",
+    "outDir": "dist"
+  },
+  "include": ["src/**/*.ts"]
+}
