@@ -13,16 +13,31 @@ export const getAngleFromIndex = (i: number, sampleNbr: number): Angle => {
   return angle;
 };
 
-export const drawLine = (start: Point, end: Point) => {
-  const group = document.querySelector("g.lines");
-  if (group === null) {
-    throw new Error("Cannot find g.lines element");
-  }
+export const getPointFromIndex = (i: number, sampleNbr: number): Point => {
+  return getPointFromAngle(getAngleFromIndex(i, sampleNbr));
+};
 
+export const drawLine = (start: Point, end: Point) => {
   const line = document.createElementNS(SVGNS, "line");
-  line.setAttributeNS(null, "x1", String(start.x));
-  line.setAttributeNS(null, "y1", String(start.y));
-  line.setAttributeNS(null, "x2", String(end.x));
-  line.setAttributeNS(null, "y2", String(end.y));
-  group.appendChild(line);
+  setAttribute(line, "x1", start.x);
+  setAttribute(line, "y1", start.y);
+  setAttribute(line, "x2", end.x);
+  setAttribute(line, "y2", end.y);
+  $("g.lines").appendChild(line);
+};
+
+export const $ = (cssSelector: string): Element => {
+  const result = document.querySelector(cssSelector);
+  if (result === null) {
+    throw new Error(`Element not found: ${cssSelector}`);
+  }
+  return result;
+};
+
+export const setAttribute = (
+  elt: Element,
+  attrName: string,
+  attrValue: number
+) => {
+  elt.setAttributeNS(null, attrName, String(attrValue));
 };

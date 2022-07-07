@@ -1,6 +1,6 @@
-import { SVGNS, sampleCircleRadius } from "./global";
+import { sampleCircleRadius, SVGNS } from "./global";
 import { BoardConfig } from "./interfaces/BoardConfig";
-import { getPointFromAngle, getAngleFromIndex, drawLine } from "./misc";
+import { $, drawLine, getPointFromIndex, setAttribute } from "./misc";
 
 export class Board {
   config: BoardConfig = {
@@ -22,37 +22,26 @@ export class Board {
       this.drawLine(i);
     }
   }
+
   drawLine(i: number) {
     const startIndex = i;
     const endIndex = i * this.config.multiplier;
 
-    const startPoint = getPointFromAngle(
-      getAngleFromIndex(startIndex, this.config.sampleNbr)
-    );
-
-    const endPoint = getPointFromAngle(
-      getAngleFromIndex(endIndex, this.config.sampleNbr)
-    );
+    const startPoint = getPointFromIndex(startIndex, this.config.sampleNbr);
+    const endPoint = getPointFromIndex(endIndex, this.config.sampleNbr);
 
     drawLine(startPoint, endPoint);
   }
 
   drawSamples() {
-    const sampleGroup = document.querySelector("svg g.samples");
-    if (sampleGroup === null) {
-      throw new Error("element with selector 'svg g.samples' not found.");
-    }
-
     for (let i = 0; i < this.config.sampleNbr; i++) {
-      const { x, y } = getPointFromAngle(
-        getAngleFromIndex(i, this.config.sampleNbr)
-      );
+      const { x, y } = getPointFromIndex(i, this.config.sampleNbr);
 
       const circle = document.createElementNS(SVGNS, "circle");
-      circle.setAttributeNS(null, "cx", String(x));
-      circle.setAttributeNS(null, "cy", y.toString());
-      circle.setAttributeNS(null, "r", sampleCircleRadius + "");
-      sampleGroup.appendChild(circle);
+      setAttribute(circle, "cx", x);
+      setAttribute(circle, "cy", y);
+      setAttribute(circle, "r", sampleCircleRadius);
+      $("svg g.samples").appendChild(circle);
     }
   }
 
