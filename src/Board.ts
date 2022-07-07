@@ -6,9 +6,14 @@ const x0 = 50;
 const y0 = 50;
 
 export class Board {
-  config: BoardConfig;
+  config: BoardConfig = {
+    multiplier: 2,
+    sampleNbr: 10,
+  };
 
-  constructor() {}
+  constructor(config?: Partial<BoardConfig>) {
+    config && this.setConfig(config);
+  }
 
   draw() {
     const sampleGroup = document.querySelector("svg g.samples");
@@ -30,7 +35,9 @@ export class Board {
     }
   }
 
-  setConfig(config: BoardConfig) {
-    this.config = config;
+  setConfig(config: Partial<BoardConfig>) {
+    Object.assign(this.config, config);
+    // immutable version
+    // this.config = { ...this.config, ...config };
   }
 }

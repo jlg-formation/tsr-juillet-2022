@@ -6,7 +6,8 @@
     "moduleResolution": "node",
     "jsx": "react",
     "lib": ["ES2016", "DOM"],
-    "sourceMap": true
+    "sourceMap": true,
+    "strict": true
   },
   "include": ["src/**/*.ts"]
 }
