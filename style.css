@@ -1,0 +1,19 @@
+body {
+  font-family: sans-serif;
+}
+
+svg {
+  border: 0.1em solid black;
+  width: 50em;
+  height: 30em;
+}
+
+circle {
+  fill: transparent;
+  stroke: black;
+  stroke-width: 0.03em;
+}
+
+g.samples circle {
+  fill: black;
+}
