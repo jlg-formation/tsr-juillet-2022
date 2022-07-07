@@ -1,19 +1,23 @@
+$color: green;
+
 body {
   font-family: sans-serif;
 }
 
 svg {
-  border: 0.1em solid black;
+  border: 0.1em solid $color;
   width: 50em;
   height: 30em;
 }
 
 circle {
   fill: transparent;
-  stroke: black;
+  stroke: $color;
   stroke-width: 0.03em;
 }
 
-g.samples circle {
-  fill: black;
+g.samples {
+  circle {
+    fill: $color;
+  }
 }
