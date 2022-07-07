@@ -5,7 +5,8 @@
     "module": "ES6",
     "moduleResolution": "node",
     "jsx": "react",
-    "lib": ["ES2016", "DOM"]
+    "lib": ["ES2016", "DOM"],
+    "sourceMap": true
   },
   "include": ["src/**/*.ts"]
 }
