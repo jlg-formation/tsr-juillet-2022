@@ -1,13 +1,11 @@
-interface BoardConfig {
-  sampleNbr: number;
-}
+import { BoardConfig } from "./interfaces/BoardConfig";
 
 const SVGNS = "http://www.w3.org/2000/svg";
 const r0 = 45;
 const x0 = 50;
 const y0 = 50;
 
-class Board {
+export class Board {
   config: BoardConfig;
 
   constructor() {}

@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
-    "target": "ES3",
-    "outDir": "dist"
+    "target": "ES5",
+    "outDir": "dist",
+    "module": "ES6",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "lib": ["ES2016", "DOM"]
   },
   "include": ["src/**/*.ts"]
 }
