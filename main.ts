@@ -7,7 +7,9 @@ const x0 = 50;
 const y0 = 50;
 
 const sampleGroup = document.querySelector("svg g.samples");
-
+if (sampleGroup === null) {
+  throw new Error("element with selector 'svg g.samples' not found.");
+}
 const sampleNbr = 10;
 
 for (let i = 0; i < sampleNbr; i++) {
@@ -17,8 +19,8 @@ for (let i = 0; i < sampleNbr; i++) {
   const y = y0 + r0 * Math.sin(angle);
 
   const circle = document.createElementNS(svgns, "circle");
-  circle.setAttributeNS(null, "cx", x);
-  circle.setAttributeNS(null, "cy", y);
-  circle.setAttributeNS(null, "r", r);
+  circle.setAttributeNS(null, "cx", String(x));
+  circle.setAttributeNS(null, "cy", y.toString());
+  circle.setAttributeNS(null, "r", r + "");
   sampleGroup.appendChild(circle);
 }
