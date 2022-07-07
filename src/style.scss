@@ -21,3 +21,10 @@ g.samples {
     fill: $color;
   }
 }
+
+g.lines {
+  line {
+    stroke: $color;
+    stroke-width: 0.02em;
+  }
+}
