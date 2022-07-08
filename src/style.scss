@@ -1,12 +1,21 @@
 $color: green;
+$width: 50em;
+
+* {
+  box-sizing: border-box;
+}
 
 body {
   font-family: sans-serif;
 }
 
+h1 {
+  margin: 0.5em 0;
+}
+
 svg {
   border: 0.1em solid $color;
-  width: 50em;
+  width: $width;
   height: 30em;
 }
 
@@ -26,5 +35,26 @@ g.lines {
   line {
     stroke: $color;
     stroke-width: 0.02em;
+  }
+}
+
+div.control-panel {
+  display: flex;
+  flex-flow: column;
+  width: $width;
+  padding: 1em;
+  gap: 0.5em;
+
+  border: 0.1em solid $color;
+
+  label {
+    input {
+      width: 100%;
+    }
+  }
+
+  button {
+    margin-top: 2em;
+    padding: 0.5em;
   }
 }
