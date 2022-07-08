@@ -5,9 +5,14 @@ type CallBackFn = (config: BoardConfig) => void;
 
 export class ControlPanel {
   _isPlaying = false;
+  _config: BoardConfig = {
+    multiplier: 0,
+    sampleNbr: 0,
+  };
   callback: CallBackFn = () => {};
 
-  constructor(private config: BoardConfig) {
+  constructor(config: BoardConfig) {
+    this.config = config;
     this.manageSliders();
     this.managePlayButton();
     this.redraw();
@@ -22,6 +27,16 @@ export class ControlPanel {
     return this._isPlaying;
   }
 
+  set config(val: BoardConfig) {
+    this._config = val;
+    this.redraw();
+    this.callback(this.config);
+  }
+
+  get config() {
+    return this._config;
+  }
+
   managePlayButton() {
     const btn = $(`div.control-panel button[title="Play"]`);
     btn.addEventListener("click", () => {
@@ -32,6 +47,23 @@ export class ControlPanel {
   manageSliders() {
     const array: (keyof BoardConfig)[] = ["sampleNbr", "multiplier"];
     array.forEach((key) => {
+      const input = $$(
+        `div.control-panel label.${key} input`,
+        HTMLInputElement
+      );
+
+      input.addEventListener("input", () => {
+        this.config = { ...this.config, [key]: +input.value };
+      });
+    });
+  }
+
+  redraw() {
+    const btn = $(`div.control-panel button[title="Play"]`);
+    btn.innerHTML = this.isPlaying ? "Stop" : "Play";
+
+    const array: (keyof BoardConfig)[] = ["sampleNbr", "multiplier"];
+    array.forEach((key) => {
       const span = $(`div.control-panel label.${key} span`);
       span.innerHTML = String(this.config[key]);
 
@@ -40,18 +72,7 @@ export class ControlPanel {
         HTMLInputElement
       );
       input.value = String(this.config[key]);
-
-      input.addEventListener("input", () => {
-        this.config[key] = +input.value;
-        span.innerHTML = String(this.config[key]);
-        this.callback(this.config);
-      });
     });
-  }
-
-  redraw() {
-    const btn = $(`div.control-panel button[title="Play"]`);
-    btn.innerHTML = this.isPlaying ? "Stop" : "Play";
   }
 
   subscribe(callback: CallBackFn) {
