@@ -28,7 +28,8 @@
     "start": "webpack serve",
     "build": "webpack --mode production",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "e2e": "cypress run"
   },
   "keywords": [],
   "author": "",

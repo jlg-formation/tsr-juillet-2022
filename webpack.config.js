@@ -1,7 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { config } = require("process");
 
 module.exports = (_, args) => {
   console.log("args: ", args);
@@ -28,7 +27,7 @@ module.exports = (_, args) => {
         {
           test: /\.tsx?$/,
           use: "ts-loader",
-          exclude: /node_modules/,
+          exclude: [/node_modules/],
         },
         {
           test: /\.css$/i,

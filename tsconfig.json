@@ -8,5 +8,6 @@
     "lib": ["ES2016", "DOM"],
     "sourceMap": true,
     "strict": true
-  }
+  },
+  "include": ["src/**/*.ts"]
 }
