@@ -14,5 +14,5 @@
     "@typescript-eslint/no-empty-function": 0,
     "eqeqeq": 2
   },
-  "ignorePatterns": ["dist", "*.js"]
+  "ignorePatterns": ["dist", "*.js", "examples"]
 }
