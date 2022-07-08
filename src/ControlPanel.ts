@@ -3,13 +3,17 @@ import { $, $$ } from "./misc";
 
 type CallBackFn = (config: BoardConfig) => void;
 
+const STEP = 0.01;
+
 export class ControlPanel {
-  #isPlaying = false;
   #config: BoardConfig = {
     multiplier: 0,
     sampleNbr: 0,
   };
+  #isPlaying = false;
   callback: CallBackFn = () => {};
+
+  subscription?: number;
 
   constructor(config: BoardConfig) {
     this.config = config;
@@ -18,13 +22,8 @@ export class ControlPanel {
     this.redraw();
   }
 
-  set isPlaying(val: boolean) {
-    this.#isPlaying = val;
-    this.redraw();
-  }
-
-  get isPlaying() {
-    return this.#isPlaying;
+  get config() {
+    return this.#config;
   }
 
   set config(val: BoardConfig) {
@@ -33,8 +32,14 @@ export class ControlPanel {
     this.callback(this.config);
   }
 
-  get config() {
-    return this.#config;
+  get isPlaying() {
+    return this.#isPlaying;
+  }
+
+  set isPlaying(val: boolean) {
+    this.#isPlaying = val;
+    this.#isPlaying ? this.play() : this.stop();
+    this.redraw();
   }
 
   #addActionOnPlayButton() {
@@ -58,6 +63,17 @@ export class ControlPanel {
     });
   }
 
+  play() {
+    const callback = () => {
+      this.config = {
+        ...this.config,
+        multiplier: this.config.multiplier + STEP,
+      };
+    };
+    callback();
+    this.subscription = setInterval(callback, 50) as unknown as number;
+  }
+
   redraw() {
     const btn = $(`div.control-panel button[title="Play"]`);
     btn.innerHTML = this.isPlaying ? "Stop" : "Play";
@@ -73,6 +89,12 @@ export class ControlPanel {
       );
       input.value = String(this.config[key]);
     });
+  }
+
+  stop() {
+    if (this.subscription) {
+      clearInterval(this.subscription);
+    }
   }
 
   subscribe(callback: CallBackFn) {
