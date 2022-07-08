@@ -55,3 +55,9 @@ export const setAttribute = (
 ) => {
   elt.setAttributeNS(null, attrName, String(attrValue));
 };
+
+export const sleep = (delayMs: number) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, delayMs);
+  });
+};

@@ -1,5 +1,5 @@
 import { BoardConfig } from "./interfaces/BoardConfig";
-import { $, $$ } from "./misc";
+import { $, $$, sleep } from "./misc";
 
 type CallBackFn = (config: BoardConfig) => void;
 
@@ -64,7 +64,7 @@ export class ControlPanel {
     });
   }
 
-  play() {
+  async play() {
     const callback = () => {
       const newMultiplier = (this.config.multiplier + STEP) % 100;
       this.config = {
@@ -72,8 +72,11 @@ export class ControlPanel {
         multiplier: newMultiplier,
       };
     };
-    callback();
-    this.subscription = setInterval(callback, PERIOD);
+
+    while (this.isPlaying) {
+      callback();
+      await sleep(PERIOD);
+    }
   }
 
   redraw() {
