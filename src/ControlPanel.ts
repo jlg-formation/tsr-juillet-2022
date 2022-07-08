@@ -4,8 +4,8 @@ import { $, $$ } from "./misc";
 type CallBackFn = (config: BoardConfig) => void;
 
 export class ControlPanel {
-  _isPlaying = false;
-  _config: BoardConfig = {
+  #isPlaying = false;
+  #config: BoardConfig = {
     multiplier: 0,
     sampleNbr: 0,
   };
@@ -13,38 +13,38 @@ export class ControlPanel {
 
   constructor(config: BoardConfig) {
     this.config = config;
-    this.manageSliders();
-    this.managePlayButton();
+    this.#addActionOnSliders();
+    this.#addActionOnPlayButton();
     this.redraw();
   }
 
   set isPlaying(val: boolean) {
-    this._isPlaying = val;
+    this.#isPlaying = val;
     this.redraw();
   }
 
   get isPlaying() {
-    return this._isPlaying;
+    return this.#isPlaying;
   }
 
   set config(val: BoardConfig) {
-    this._config = val;
+    this.#config = val;
     this.redraw();
     this.callback(this.config);
   }
 
   get config() {
-    return this._config;
+    return this.#config;
   }
 
-  managePlayButton() {
+  #addActionOnPlayButton() {
     const btn = $(`div.control-panel button[title="Play"]`);
     btn.addEventListener("click", () => {
       this.isPlaying = !this.isPlaying;
     });
   }
 
-  manageSliders() {
+  #addActionOnSliders() {
     const array: (keyof BoardConfig)[] = ["sampleNbr", "multiplier"];
     array.forEach((key) => {
       const input = $$(
