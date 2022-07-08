@@ -14,8 +14,6 @@ export class ControlPanel {
   #isPlaying = false;
   callback: CallBackFn = () => {};
 
-  subscription?: ReturnType<typeof setInterval>;
-
   constructor(config: BoardConfig) {
     this.config = config;
     this.#addActionOnSliders();
@@ -39,7 +37,7 @@ export class ControlPanel {
 
   set isPlaying(val: boolean) {
     this.#isPlaying = val;
-    this.#isPlaying ? this.play() : this.stop();
+    this.#isPlaying && this.play();
     this.redraw();
   }
 
@@ -94,12 +92,6 @@ export class ControlPanel {
       );
       input.value = String(this.config[key]);
     });
-  }
-
-  stop() {
-    if (this.subscription) {
-      clearInterval(this.subscription);
-    }
   }
 
   subscribe(callback: CallBackFn) {
