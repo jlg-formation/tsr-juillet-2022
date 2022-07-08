@@ -3,7 +3,8 @@ import { $, $$ } from "./misc";
 
 type CallBackFn = (config: BoardConfig) => void;
 
-const STEP = 0.01;
+const STEP = 0.004;
+const PERIOD = 20;
 
 export class ControlPanel {
   #config: BoardConfig = {
@@ -13,7 +14,7 @@ export class ControlPanel {
   #isPlaying = false;
   callback: CallBackFn = () => {};
 
-  subscription?: number;
+  subscription?: ReturnType<typeof setInterval>;
 
   constructor(config: BoardConfig) {
     this.config = config;
@@ -65,13 +66,14 @@ export class ControlPanel {
 
   play() {
     const callback = () => {
+      const newMultiplier = (this.config.multiplier + STEP) % 100;
       this.config = {
         ...this.config,
-        multiplier: this.config.multiplier + STEP,
+        multiplier: newMultiplier,
       };
     };
     callback();
-    this.subscription = setInterval(callback, 50) as unknown as number;
+    this.subscription = setInterval(callback, PERIOD);
   }
 
   redraw() {
@@ -81,7 +83,7 @@ export class ControlPanel {
     const array: (keyof BoardConfig)[] = ["sampleNbr", "multiplier"];
     array.forEach((key) => {
       const span = $(`div.control-panel label.${key} span`);
-      span.innerHTML = String(this.config[key]);
+      span.innerHTML = this.config[key].toFixed(key === "sampleNbr" ? 0 : 2);
 
       const input = $$(
         `div.control-panel label.${key} input`,
