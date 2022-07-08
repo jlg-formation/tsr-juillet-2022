@@ -12,15 +12,14 @@ export class Board {
     config && this.setConfig(config);
   }
 
+  clean() {
+    $("svg g.samples").innerHTML = "";
+    $("svg g.lines").innerHTML = "";
+  }
+
   draw() {
     this.drawSamples();
     this.drawLines();
-  }
-
-  drawLines() {
-    for (let i = 0; i < this.config.sampleNbr; i++) {
-      this.drawLine(i);
-    }
   }
 
   drawLine(i: number) {
@@ -33,6 +32,12 @@ export class Board {
     drawLine(startPoint, endPoint);
   }
 
+  drawLines() {
+    for (let i = 0; i < this.config.sampleNbr; i++) {
+      this.drawLine(i);
+    }
+  }
+
   drawSamples() {
     for (let i = 0; i < this.config.sampleNbr; i++) {
       const { x, y } = getPointFromIndex(i, this.config.sampleNbr);
@@ -43,6 +48,11 @@ export class Board {
       setAttribute(circle, "r", sampleCircleRadius);
       $("svg g.samples").appendChild(circle);
     }
+  }
+
+  redraw() {
+    this.clean();
+    this.draw();
   }
 
   setConfig(config: Partial<BoardConfig>) {

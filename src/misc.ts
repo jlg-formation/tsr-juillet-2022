@@ -34,6 +34,20 @@ export const $ = (cssSelector: string): Element => {
   return result;
 };
 
+export const $$ = <T extends Element>(
+  cssSelector: string,
+  Type: new () => T
+): T => {
+  const result = document.querySelector(cssSelector);
+  if (result === null) {
+    throw new Error(`Element not found: ${cssSelector}`);
+  }
+  if (!(result instanceof Type)) {
+    throw new Error(`Element is not instance of ${Type.name}`);
+  }
+  return result;
+};
+
 export const setAttribute = (
   elt: Element,
   attrName: string,
