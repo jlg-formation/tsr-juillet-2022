@@ -2,6 +2,7 @@ import "./style.scss";
 
 import { Board } from "./Board";
 import { ControlPanel } from "./ControlPanel";
+import { exampleObs } from "./obs";
 
 const cfg = {
   sampleNbr: 50,
@@ -16,3 +17,16 @@ controlPanel.subscribe((config) => {
   board.setConfig(config);
   board.redraw();
 });
+
+const subscription = exampleObs(123).subscribe({
+  next: (data) => {
+    console.log("next data: ", data);
+  },
+  error: (err) => {
+    console.log("err: ", err);
+  },
+  complete: () => {
+    console.log("complete");
+  },
+});
+console.log("subscription: ", subscription);
